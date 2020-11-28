@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Controllers",
+    "\\DbContexts",
+    "\\Entities",
+    "\\Models",
+    "\\Services"
+  ],
+  "SelectedNode": "\\Models",
+  "PreviewInSolutionExplorer": false
+}

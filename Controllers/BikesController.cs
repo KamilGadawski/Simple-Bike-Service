@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ServiceAPI.Services;
+using ServiceAPI.Models;
 
 namespace ServiceAPI.Controllers
 {
@@ -22,7 +23,21 @@ namespace ServiceAPI.Controllers
         public IActionResult GetBikes()
         {
             var bikes = _bikeCustomersRepository.GetBikes();
-            return Ok(bikes);
+            var bikesDto = new List<BikeDto>();
+
+            foreach(var bike in bikes)
+            {
+                bikesDto.Add(new BikeDto()
+                {
+                    Id = bike.Id,
+                    Brand = bike.Brand,
+                    Model = bike.Model,
+                    Size = bike.Size,
+                    Description = bike.Description,
+                    AddedBikeAgo = $"{bike.AddedBike:MM/dd/yyyy HH:mm}"
+                });
+            }
+            return Ok(bikesDto);
         }
 
         [HttpGet("{bikeId}")]
