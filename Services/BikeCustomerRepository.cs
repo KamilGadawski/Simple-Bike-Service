@@ -81,7 +81,7 @@ namespace ServiceAPI.Services
             _context.Customers.Remove(customer);
         }
 
-        public IEnumerable<Bike> GetBike()
+        public IEnumerable<Bike> GetBikes()
         {
             return _context.Bikes.ToList();
         }

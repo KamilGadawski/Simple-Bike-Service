@@ -25,7 +25,7 @@ namespace ServiceAPI.Entities
         public string Email {get; set; }
 
         [Required]
-        public int TelephoneNumber { get; set; }
+        public string TelephoneNumber { get; set; }
 
         [ForeignKey("BikeId")]
         public Bike Bike { get; set; }

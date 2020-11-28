@@ -14,7 +14,7 @@ namespace ServiceAPI.Services
         void UpdateCustomer(Customer customer);
         void DeleteCustomer(Customer customer);
 
-        IEnumerable<Bike> GetBike();
+        IEnumerable<Bike> GetBikes();
         Bike GetBike(Guid bikeId);
         IEnumerable<Bike> GetBikes(IEnumerable<Guid> bikeIds);
         void AddBike(Bike bike);
