@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ServiceAPI.Services;
 using ServiceAPI.Models;
+using ServiceAPI.Helpers;
+using AutoMapper;
 
 namespace ServiceAPI.Controllers
 {
@@ -13,31 +15,19 @@ namespace ServiceAPI.Controllers
     public class BikesController : ControllerBase
     {
         private readonly IBikeCustomersRepository _bikeCustomersRepository;
+        private readonly IMapper _mapper;
 
-        public BikesController(IBikeCustomersRepository bikeCustomersRepository)
+        public BikesController(IBikeCustomersRepository bikeCustomersRepository, IMapper mapper)
         {
             _bikeCustomersRepository = bikeCustomersRepository ?? throw new ArgumentNullException(nameof(bikeCustomersRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
-        public IActionResult GetBikes()
+        public ActionResult<IEnumerable<BikeDto>> GetBikes()
         {
             var bikes = _bikeCustomersRepository.GetBikes();
-            var bikesDto = new List<BikeDto>();
-
-            foreach(var bike in bikes)
-            {
-                bikesDto.Add(new BikeDto()
-                {
-                    Id = bike.Id,
-                    Brand = bike.Brand,
-                    Model = bike.Model,
-                    Size = bike.Size,
-                    Description = bike.Description,
-                    AddedBikeAgo = $"{bike.AddedBike:MM/dd/yyyy HH:mm}"
-                });
-            }
-            return Ok(bikesDto);
+            return Ok(_mapper.Map<IEnumerable<BikeDto>>(bikes));
         }
 
         [HttpGet("{bikeId}")]
