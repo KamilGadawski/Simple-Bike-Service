@@ -12,6 +12,7 @@ namespace ServiceAPI.Models
         public int Size { get; set; }
         public string Description { get; set; }
         public string Model { get; set; }
+        public Guid CustomerID{ get; set; }
         public string AddedBikeAgo { get; set; }
     }
 }

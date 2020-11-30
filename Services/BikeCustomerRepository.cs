@@ -58,7 +58,8 @@ namespace ServiceAPI.Services
                 throw new ArgumentNullException(nameof(customerId));
             }
 
-            return _context.Customers.Any(x => x.Id == customerId);
+            var exist = _context.Customers.Any(x => x.Id == customerId);
+            return exist;
         }
 
         public void DeleteBike(Bike bike)
@@ -94,6 +95,18 @@ namespace ServiceAPI.Services
             }
 
             return _context.Bikes.FirstOrDefault(x => x.Id == bikeId);
+        }
+
+        public IEnumerable<Bike> GetBikesForCustomer(Guid customerId)
+        {
+            if (customerId == null)
+            {
+                throw new ArgumentNullException(nameof(customerId));
+            }
+
+            var bikes = _context.Bikes.Where(x => x.CustomerID == customerId)
+                                              .OrderBy(x => x.Brand).ToList();
+            return bikes;
         }
 
         public IEnumerable<Bike> GetBikes(IEnumerable<Guid> bikeIds)

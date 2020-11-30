@@ -25,6 +25,7 @@ namespace ServiceAPI.DbContexts
                 Model = "TCR",
                 Size = 54,
                 Description = "Repair front wheel",
+                CustomerID = Guid.Parse("65da4ed0-35b9-454e-b5ac-d0eee7aad646"),
                 AddedBike = new DateTime(2020,11,28)
             },
             new Bike
@@ -34,6 +35,7 @@ namespace ServiceAPI.DbContexts
                 Model = "Vento 5.0",
                 Size = 58,
                 Description = "Change Casette",
+                CustomerID = Guid.Parse("65da4ed0-35b9-454e-b5ac-d0eee7aad646"),
                 AddedBike = new DateTime(2020, 7, 15)
             },
             new Bike
@@ -43,6 +45,7 @@ namespace ServiceAPI.DbContexts
                 Model = "Reacto 4000",
                 Size = 56,
                 Description = "Change chain",
+                CustomerID = Guid.Parse("65da4ed0-35b9-454e-b5ac-d0eee7aad646"),
                 AddedBike = new DateTime(2020, 8, 21)
             });
 
@@ -53,7 +56,7 @@ namespace ServiceAPI.DbContexts
                 Surname = "Wallie",
                 Email = "john@gmail.com",
                 TelephoneNumber = "123456789",
-                BikeId = Guid.Parse("d719c835-ce3e-4dad-ad64-cfec54b19775"),
+                BikeId = Guid.Parse("99289c1a-3342-40fc-905b-65c2dd59babe"),
                 DateTimeAdd = new DateTime(2020,7,13)
             },
             new Customer

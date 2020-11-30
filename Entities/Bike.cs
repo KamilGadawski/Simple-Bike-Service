@@ -27,6 +27,8 @@ namespace ServiceAPI.Entities
         [MaxLength(50)]
         public string Model { get; set; }
 
+        public Guid CustomerID { get; set; }
+
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime AddedBike { get; set; }
