@@ -33,12 +33,12 @@ namespace ServiceAPI.Controllers
         [HttpGet("{bikeId}")]
         public IActionResult GetBike(Guid bikeId)
         {
-            //if(_bikeCustomersRepository.BikeExist(bikeId))
-            //{
-            //    return NotFound();
-            //}
-
             var bike = _bikeCustomersRepository.GetBike(bikeId);
+            if (_bikeCustomersRepository.BikeExist(bikeId))
+            {
+                return NotFound();
+            }
+
             if (bike == null)
             {
                 return NotFound();
