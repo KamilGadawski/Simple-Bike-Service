@@ -7,6 +7,7 @@ using ServiceAPI.Services;
 using ServiceAPI.Models;
 using ServiceAPI.Helpers;
 using AutoMapper;
+using System.Text.Json;
 
 namespace ServiceAPI.Controllers
 {
@@ -31,17 +32,17 @@ namespace ServiceAPI.Controllers
         }
 
         [HttpGet("{bikeId}")]
-        public IActionResult GetBike(Guid bikeId)
+        public async Task<IActionResult> GetBike(Guid bikeId)
         {
-            var bike = _bikeCustomersRepository.GetBike(bikeId);
-            if (_bikeCustomersRepository.BikeExist(bikeId))
-            {
-                return NotFound();
-            }
+            var bike = await _bikeCustomersRepository.GetBike(bikeId);
+            //if (_bikeCustomersRepository.BikeExist(bikeId))
+            //{
+            //    return NotFound(bikeId);
+            //}
 
             if (bike == null)
             {
-                return NotFound();
+                return NotFound(bike);
             }
             return Ok(bike);
         }

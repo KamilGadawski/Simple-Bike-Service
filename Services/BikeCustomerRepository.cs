@@ -1,4 +1,5 @@
-﻿using ServiceAPI.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using ServiceAPI.DbContexts;
 using ServiceAPI.Entities;
 using System;
 using System.Collections.Generic;
@@ -87,15 +88,25 @@ namespace ServiceAPI.Services
             return _context.Bikes.ToList();
         }
 
-        public Bike GetBike(Guid bikeId)
+        public async Task<Bike> GetBike(Guid bikeId)
         {
             if (bikeId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(bikeId));
             }
 
-            return _context.Bikes.FirstOrDefault(x => x.Id == bikeId);
+            return await _context.Bikes.FirstOrDefaultAsync(x => x.Id == bikeId);
         }
+
+        //public Bike GetBike(Guid bikeId)
+        //{
+        //    if (bikeId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(bikeId));
+        //    }
+
+        //    return _context.Bikes.FirstOrDefault(x => x.Id == bikeId);
+        //}
 
         public IEnumerable<Bike> GetBikesForCustomer(Guid customerId)
         {

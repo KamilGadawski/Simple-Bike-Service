@@ -28,7 +28,7 @@ namespace ServiceAPI.Controllers
         {
             if (!_bikeCustomersRepository.CustomerExist(customerId))
             {
-                return NotFound();
+                return NotFound(customerId);
             }
 
             var bikes = _bikeCustomersRepository.GetBikesForCustomer(customerId);
