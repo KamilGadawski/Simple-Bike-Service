@@ -42,14 +42,14 @@ namespace ServiceAPI.Services
             _context.Customers.Add(customer);
         }
 
-        public bool BikeExist(Guid bikeId)
+        public async Task<bool> BikeExist(Guid bikeId)
         {
             if (bikeId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(bikeId));
             }
 
-            return _context.Bikes.Any(x => x.Id == bikeId);
+            return await _context.Bikes.AnyAsync(x => x.Id == bikeId);
         }
 
         public bool CustomerExist(Guid customerId)
@@ -97,16 +97,6 @@ namespace ServiceAPI.Services
 
             return await _context.Bikes.FirstOrDefaultAsync(x => x.Id == bikeId);
         }
-
-        //public Bike GetBike(Guid bikeId)
-        //{
-        //    if (bikeId == Guid.Empty)
-        //    {
-        //        throw new ArgumentNullException(nameof(bikeId));
-        //    }
-
-        //    return _context.Bikes.FirstOrDefault(x => x.Id == bikeId);
-        //}
 
         public IEnumerable<Bike> GetBikesForCustomer(Guid customerId)
         {

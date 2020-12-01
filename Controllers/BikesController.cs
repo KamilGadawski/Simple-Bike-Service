@@ -35,10 +35,10 @@ namespace ServiceAPI.Controllers
         public async Task<IActionResult> GetBike(Guid bikeId)
         {
             var bike = await _bikeCustomersRepository.GetBike(bikeId);
-            //if (_bikeCustomersRepository.BikeExist(bikeId))
-            //{
-            //    return NotFound(bikeId);
-            //}
+            if (!await _bikeCustomersRepository.BikeExist(bikeId))
+            {
+                return NotFound(bikeId);
+            }
 
             if (bike == null)
             {

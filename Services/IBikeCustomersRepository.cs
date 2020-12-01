@@ -21,8 +21,7 @@ namespace ServiceAPI.Services
         void AddBike(Bike bike);
         void UpdateBike(Bike bike);
         void DeleteBike(Bike bike);
-
-        bool BikeExist(Guid bikeId);
+        Task<bool> BikeExist(Guid bikeId);
         bool CustomerExist(Guid customerId);
         bool Save();
     }
