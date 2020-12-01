@@ -132,6 +132,11 @@ namespace ServiceAPI.Services
                                      .OrderBy(x => x.Name).ToList();
         }
 
+        public async Task<IEnumerable<Customer>> GetCustomers()
+        {
+            return await _context.Customers.ToListAsync();
+        }
+
         public Customer GetCustomer(Guid bikeId, Guid customerId)
         {
             if (bikeId == Guid.Empty)

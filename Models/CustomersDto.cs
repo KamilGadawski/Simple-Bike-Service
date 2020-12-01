@@ -12,7 +12,6 @@ namespace ServiceAPI.Models
         public string Surname { get; set; }
         public string Email { get; set; }
         public string TelephoneNumber { get; set; }
-        public Guid BikeId { get; set; }
         public DateTime DateTimeAdd { get; set; }
     }
 }
