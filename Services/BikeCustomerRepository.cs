@@ -52,14 +52,14 @@ namespace ServiceAPI.Services
             return await _context.Bikes.AnyAsync(x => x.Id == bikeId);
         }
 
-        public bool CustomerExist(Guid customerId)
+        public async Task<bool> CustomerExist(Guid customerId)
         {
             if (customerId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(customerId));
             }
 
-            var exist = _context.Customers.Any(x => x.Id == customerId);
+            var exist = await _context.Customers.AnyAsync(x => x.Id == customerId);
             return exist;
         }
 
@@ -98,15 +98,15 @@ namespace ServiceAPI.Services
             return await _context.Bikes.FirstOrDefaultAsync(x => x.Id == bikeId);
         }
 
-        public IEnumerable<Bike> GetBikesForCustomer(Guid customerId)
+        public async Task<IEnumerable<Bike>> GetBikesForCustomer(Guid customerId)
         {
             if (customerId == null)
             {
                 throw new ArgumentNullException(nameof(customerId));
             }
 
-            var bikes = _context.Bikes.Where(x => x.CustomerID == customerId)
-                                              .OrderBy(x => x.Brand).ToList();
+            var bikes = await _context.Bikes.Where(x => x.CustomerID == customerId)
+                                              .OrderBy(x => x.Brand).ToListAsync();
             return bikes;
         }
 

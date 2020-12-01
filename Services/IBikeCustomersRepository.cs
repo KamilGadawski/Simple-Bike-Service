@@ -15,13 +15,13 @@ namespace ServiceAPI.Services
         void DeleteCustomer(Customer customer);
         Task<IEnumerable<Bike>> GetBikes();
         Task<Bike> GetBike(Guid bikeId);
-        IEnumerable<Bike> GetBikesForCustomer(Guid customerId);
+        Task<IEnumerable<Bike>> GetBikesForCustomer(Guid customerId);
         //Task<IEnumerable<Bike>> GetBikes(IEnumerable<Guid> bikeIds);
         void AddBike(Bike bike);
         void UpdateBike(Bike bike);
         void DeleteBike(Bike bike);
         Task<bool> BikeExist(Guid bikeId);
-        bool CustomerExist(Guid customerId);
+        Task<bool> CustomerExist(Guid customerId);
         bool Save();
     }
 }

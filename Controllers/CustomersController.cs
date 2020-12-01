@@ -24,14 +24,14 @@ namespace ServiceAPI.Controllers
 
         [HttpGet]
         [Route("{customerId}/bikes")]
-        public ActionResult<IEnumerable<BikeDto>> GetBikesForCustomer(Guid customerId)
+        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikesForCustomer(Guid customerId)
         {
-            if (!_bikeCustomersRepository.CustomerExist(customerId))
+            if (!await _bikeCustomersRepository.CustomerExist(customerId))
             {
                 return NotFound(customerId);
             }
 
-            var bikes = _bikeCustomersRepository.GetBikesForCustomer(customerId);
+            var bikes = await _bikeCustomersRepository.GetBikesForCustomer(customerId);
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(bikes));
         }
     }
