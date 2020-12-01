@@ -83,9 +83,9 @@ namespace ServiceAPI.Services
             _context.Customers.Remove(customer);
         }
 
-        public IEnumerable<Bike> GetBikes()
+        public async Task<IEnumerable<Bike>> GetBikes()
         {
-            return _context.Bikes.ToList();
+            return await _context.Bikes.ToListAsync();
         }
 
         public async Task<Bike> GetBike(Guid bikeId)
@@ -110,16 +110,16 @@ namespace ServiceAPI.Services
             return bikes;
         }
 
-        public IEnumerable<Bike> GetBikes(IEnumerable<Guid> bikeIds)
-        {
-            if (bikeIds == null)
-            {
-                throw new ArgumentNullException(nameof(bikeIds));
-            }
+        //public IEnumerable<Bike> GetBikes(IEnumerable<Guid> bikeIds)
+        //{
+        //    if (bikeIds == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(bikeIds));
+        //    }
 
-            return _context.Bikes.Where(x => bikeIds.Contains(x.Id))
-                                 .OrderBy(x => x.Brand).ToList();
-        }
+        //    return _context.Bikes.Where(x => bikeIds.Contains(x.Id))
+        //                         .OrderBy(x => x.Brand).ToList();
+        //}
 
         public IEnumerable<Customer> GetCustomer(Guid bikeId)
         {

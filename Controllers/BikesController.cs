@@ -25,9 +25,9 @@ namespace ServiceAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<BikeDto>> GetBikes()
+        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikes()
         {
-            var bikes = _bikeCustomersRepository.GetBikes();
+            var bikes = await _bikeCustomersRepository.GetBikes();
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(bikes));
         }
 
@@ -44,7 +44,7 @@ namespace ServiceAPI.Controllers
             {
                 return NotFound(bike);
             }
-            return Ok(bike);
+            return Ok(_mapper.Map<BikeDto>(bike));
         }
     }
 }
