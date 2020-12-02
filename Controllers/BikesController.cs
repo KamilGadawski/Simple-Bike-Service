@@ -31,6 +31,14 @@ namespace ServiceAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(bikes));
         }
 
+        [HttpGet("search")]
+        [HttpHead]
+        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikes([FromQuery]string brand)
+        {
+            var brandResult = await _bikeCustomersRepository.GetBikes(brand);
+            return Ok(_mapper.Map<IEnumerable<BikeDto>>(brandResult));
+        }
+
         [HttpGet("{bikeId}")]
         public async Task<IActionResult> GetBike(Guid bikeId)
         {
