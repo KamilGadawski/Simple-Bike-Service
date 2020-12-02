@@ -88,6 +88,20 @@ namespace ServiceAPI.Services
             return await _context.Bikes.ToListAsync();
         }
 
+        public async Task<IEnumerable<Bike>> GetBikes(string brand)
+        {
+            brand = brand.Trim();
+
+            if(string.IsNullOrEmpty(brand))
+            {
+                return await GetBikes();
+            }
+
+            var searchBrand = _context.Bikes as IQueryable<Bike>;
+
+            return await searchBrand.Where(x => x.Brand.Contains(brand)).ToListAsync();
+        }
+
         public async Task<Bike> GetBike(Guid bikeId)
         {
             if (bikeId == Guid.Empty)
@@ -108,27 +122,6 @@ namespace ServiceAPI.Services
             var bikes = await _context.Bikes.Where(x => x.CustomerID == customerId)
                                               .OrderBy(x => x.Brand).ToListAsync();
             return bikes;
-        }
-
-        //public IEnumerable<Bike> GetBikes(IEnumerable<Guid> bikeIds)
-        //{
-        //    if (bikeIds == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(bikeIds));
-        //    }
-
-        //    return _context.Bikes.Where(x => bikeIds.Contains(x.Id))
-        //                         .OrderBy(x => x.Brand).ToList();
-        //}
-
-        public async Task<Customer> GetCustomer(Guid customerId)
-        {
-            if (customerId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(customerId));
-            }
-
-            return await _context.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
         }
 
         public async Task<IEnumerable<Customer>> GetCustomers()

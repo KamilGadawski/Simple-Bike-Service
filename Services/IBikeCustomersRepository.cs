@@ -15,9 +15,9 @@ namespace ServiceAPI.Services
         void UpdateCustomer(Customer customer);
         void DeleteCustomer(Customer customer);
         Task<IEnumerable<Bike>> GetBikes();
+        Task<IEnumerable<Bike>> GetBikes(string brand);
         Task<Bike> GetBike(Guid bikeId);
         Task<IEnumerable<Bike>> GetBikesForCustomer(Guid customerId);
-        //Task<IEnumerable<Bike>> GetBikes(IEnumerable<Guid> bikeIds);
         void AddBike(Bike bike);
         void UpdateBike(Bike bike);
         void DeleteBike(Bike bike);
