@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,16 @@ namespace ServiceAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            } 
+            else
+            {
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    appBuilder.Run(async c => {
+                        c.Response.StatusCode = 500;
+                        await c.Response.WriteAsync("Something wrong. Try again");
+                    });
+                });
             }
 
             app.UseRouting();
