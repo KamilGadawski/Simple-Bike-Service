@@ -124,6 +124,36 @@ namespace ServiceAPI.Services
             return bikes;
         }
 
+        public async Task<Customer> GetCustomer(Guid customerId)
+        {
+            return await _context.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
+        }
+
+        public async Task<IEnumerable<Customer>> GetCustomer(string name, string surname)
+        {
+
+            if(string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(surname))
+            {
+                return await GetCustomers();
+            }
+
+            var customerCollection = _context.Customers as IQueryable<Customer>;
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                name = name.Trim();
+                customerCollection = customerCollection.Where(x => x.Name == name);
+            }
+
+            if (!string.IsNullOrWhiteSpace(surname))
+            {
+                surname = surname.Trim();
+                customerCollection = customerCollection.Where(x => x.Surname == surname);
+            }
+
+            return await customerCollection.ToListAsync();
+        }
+
         public async Task<IEnumerable<Customer>> GetCustomers()
         {
             return await _context.Customers.ToListAsync();
