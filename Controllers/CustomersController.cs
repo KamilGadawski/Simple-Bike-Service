@@ -21,6 +21,15 @@ namespace ServiceAPI.Controllers
             _bikeCustomersRepository = bikeCustomersRepository ?? throw new ArgumentNullException(nameof(bikeCustomersRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
+        [HttpGet]
+        [HttpHead]
+        public async Task<ActionResult<IEnumerable<CustomersDto>>> GetCustomer([FromQuery]string name, [FromQuery]string surname)
+        {
+            var searchCustomer = await _bikeCustomersRepository.GetCustomer(name, surname);
+            return Ok(_mapper.Map<IEnumerable<CustomersDto>>(searchCustomer));
+        }
+
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<CustomersDto>>> GetCustomers()
         {
