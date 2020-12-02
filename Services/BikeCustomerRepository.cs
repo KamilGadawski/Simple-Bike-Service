@@ -121,15 +121,14 @@ namespace ServiceAPI.Services
         //                         .OrderBy(x => x.Brand).ToList();
         //}
 
-        public IEnumerable<Customer> GetCustomer(Guid bikeId)
+        public async Task<Customer> GetCustomer(Guid customerId)
         {
-            if (bikeId == Guid.Empty)
+            if (customerId == Guid.Empty)
             {
-                throw new ArgumentNullException(nameof(bikeId));
+                throw new ArgumentNullException(nameof(customerId));
             }
 
-            return _context.Customers.Where(x => x.BikeId == bikeId)
-                                     .OrderBy(x => x.Name).ToList();
+            return await _context.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
         }
 
         public async Task<IEnumerable<Customer>> GetCustomers()

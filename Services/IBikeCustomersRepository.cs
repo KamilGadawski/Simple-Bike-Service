@@ -8,7 +8,7 @@ namespace ServiceAPI.Services
 {
     public interface IBikeCustomersRepository
     {
-        IEnumerable<Customer> GetCustomer(Guid bikeId);
+        Task<Customer> GetCustomer(Guid customerId);
         Task<IEnumerable<Customer>> GetCustomers();
         Customer GetCustomer(Guid bikeId, Guid customerId);
         void AddCustomer(Guid bikeId, Customer customer);
