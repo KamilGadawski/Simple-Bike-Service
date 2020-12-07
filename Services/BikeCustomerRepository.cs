@@ -174,9 +174,9 @@ namespace ServiceAPI.Services
             return _context.Customers.Where(x => x.BikeId == bikeId && x.Id == customerId).FirstOrDefault();
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return (_context.SaveChanges() >= 0);
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
         public void UpdateBike(Bike bike)

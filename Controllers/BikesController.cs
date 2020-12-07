@@ -61,7 +61,7 @@ namespace ServiceAPI.Controllers
             var bikeEntity = _mapper.Map<Entities.Bike>(bike);
 
             await _bikeCustomersRepository.AddBike(bikeEntity);
-            _bikeCustomersRepository.Save();
+            await _bikeCustomersRepository.Save();
 
             var bikeReturn = _mapper.Map<BikeDto>(bikeEntity);
 
