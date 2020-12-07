@@ -19,7 +19,7 @@ namespace ServiceAPI.Services
         Task<IEnumerable<Bike>> GetBikes(string brand);
         Task<Bike> GetBike(Guid bikeId);
         Task<IEnumerable<Bike>> GetBikesForCustomer(Guid customerId);
-        void AddBike(Bike bike);
+        Task AddBike(Bike bike);
         void UpdateBike(Bike bike);
         void DeleteBike(Bike bike);
         Task<bool> BikeExist(Guid bikeId);

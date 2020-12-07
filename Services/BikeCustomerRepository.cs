@@ -16,14 +16,14 @@ namespace ServiceAPI.Services
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public void AddBike(Bike bike)
+        public async Task AddBike(Bike bike)
         {
             if (bike == null)
             {
                 throw new ArgumentNullException(nameof(bike));
             }
 
-            _context.Bikes.Add(bike);
+          await _context.Bikes.AddAsync(bike);
         }
 
         public void AddCustomer(Guid bikeId, Customer customer)
