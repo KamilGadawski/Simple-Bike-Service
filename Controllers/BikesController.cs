@@ -39,7 +39,7 @@ namespace ServiceAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(brandResult));
         }
 
-        [HttpGet("{bikeId}")]
+        [HttpGet("{bikeId}", Name ="GetBike")]
         public async Task<IActionResult> GetBike(Guid bikeId)
         {
             var bike = await _bikeCustomersRepository.GetBike(bikeId);
@@ -53,6 +53,19 @@ namespace ServiceAPI.Controllers
                 return NotFound(bike);
             }
             return Ok(_mapper.Map<BikeDto>(bike));
+        }
+
+        [HttpPost]
+        public ActionResult<BikeDto> CreateBike([FromBody] BikeCreatingDto bike)
+        {
+            var bikeEntity = _mapper.Map<Entities.Bike>(bike);
+
+            _bikeCustomersRepository.AddBike(bikeEntity);
+            _bikeCustomersRepository.Save();
+
+            var bikeReturn = _mapper.Map<BikeDto>(bikeEntity);
+
+            return CreatedAtRoute("GetBike", new { bikeId = bikeReturn.Id }, bikeReturn);
         }
     }
 }

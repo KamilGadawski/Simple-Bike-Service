@@ -14,8 +14,10 @@ namespace ServiceAPI.Profiles
             CreateMap<Entities.Bike, Models.BikeDto>()
                 .ForMember(
                 x => x.AddedBikeAgo,
-                option => option.MapFrom(src => $"{src.AddedBike.ToString("MM/dd/yyyy")}({src.AddedBike.AddedBikeAgo()}")
+                option => option.MapFrom(src => $"{src.AddedBike.ToString("MM/dd/yyyy")} ({src.AddedBike.AddedBikeAgo()})")
                 );
+
+            CreateMap<Models.BikeCreatingDto, Entities.Bike>();
         }
     }
 }
