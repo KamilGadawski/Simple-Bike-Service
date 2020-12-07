@@ -8,22 +8,22 @@ namespace ServiceAPI.Services
 {
     public interface IBikeCustomersRepository
     {
-        IEnumerable<Customer> GetCustomer(Guid bikeId);
+        Task<Customer> GetCustomer(Guid customerId);
+        Task<IEnumerable<Customer>> GetCustomer(string name, string surname);
+        Task<IEnumerable<Customer>> GetCustomers();
         Customer GetCustomer(Guid bikeId, Guid customerId);
         void AddCustomer(Guid bikeId, Customer customer);
         void UpdateCustomer(Customer customer);
         void DeleteCustomer(Customer customer);
-
-        IEnumerable<Bike> GetBikes();
-        Bike GetBike(Guid bikeId);
-        IEnumerable<Bike> GetBikesForCustomer(Guid customerId);
-        IEnumerable<Bike> GetBikes(IEnumerable<Guid> bikeIds);
+        Task<IEnumerable<Bike>> GetBikes();
+        Task<IEnumerable<Bike>> GetBikes(string brand);
+        Task<Bike> GetBike(Guid bikeId);
+        Task<IEnumerable<Bike>> GetBikesForCustomer(Guid customerId);
         void AddBike(Bike bike);
         void UpdateBike(Bike bike);
         void DeleteBike(Bike bike);
-
-        bool BikeExist(Guid bikeId);
-        bool CustomerExist(Guid customerId);
+        Task<bool> BikeExist(Guid bikeId);
+        Task<bool> CustomerExist(Guid customerId);
         bool Save();
     }
 }

@@ -7,6 +7,7 @@ using ServiceAPI.Services;
 using ServiceAPI.Models;
 using ServiceAPI.Helpers;
 using AutoMapper;
+using System.Text.Json;
 
 namespace ServiceAPI.Controllers
 {
@@ -24,26 +25,34 @@ namespace ServiceAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<BikeDto>> GetBikes()
+        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikes()
         {
-            var bikes = _bikeCustomersRepository.GetBikes();
+            var bikes = await _bikeCustomersRepository.GetBikes();
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(bikes));
         }
 
-        [HttpGet("{bikeId}")]
-        public IActionResult GetBike(Guid bikeId)
+        [HttpGet("search")]
+        [HttpHead]
+        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikes([FromQuery]string brand)
         {
-            var bike = _bikeCustomersRepository.GetBike(bikeId);
-            if (_bikeCustomersRepository.BikeExist(bikeId))
+            var brandResult = await _bikeCustomersRepository.GetBikes(brand);
+            return Ok(_mapper.Map<IEnumerable<BikeDto>>(brandResult));
+        }
+
+        [HttpGet("{bikeId}")]
+        public async Task<IActionResult> GetBike(Guid bikeId)
+        {
+            var bike = await _bikeCustomersRepository.GetBike(bikeId);
+            if (!await _bikeCustomersRepository.BikeExist(bikeId))
             {
-                return NotFound();
+                return NotFound(bikeId);
             }
 
             if (bike == null)
             {
-                return NotFound();
+                return NotFound(bike);
             }
-            return Ok(bike);
+            return Ok(_mapper.Map<BikeDto>(bike));
         }
     }
 }

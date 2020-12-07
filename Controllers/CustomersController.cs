@@ -23,15 +23,48 @@ namespace ServiceAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{customerId}/bikes")]
-        public ActionResult<IEnumerable<BikeDto>> GetBikesForCustomer(Guid customerId)
+        [HttpHead]
+        public async Task<ActionResult<IEnumerable<CustomersDto>>> GetCustomer([FromQuery]string name, [FromQuery]string surname)
         {
-            if (!_bikeCustomersRepository.CustomerExist(customerId))
+            var searchCustomer = await _bikeCustomersRepository.GetCustomer(name, surname);
+            return Ok(_mapper.Map<IEnumerable<CustomersDto>>(searchCustomer));
+        }
+
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<CustomersDto>>> GetCustomers()
+        {
+            var customers = await _bikeCustomersRepository.GetCustomers();
+            return Ok(_mapper.Map<IEnumerable<CustomersDto>>(customers));
+        }
+
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> GetCustomer(Guid customerId)
+        {
+            if (customerId == null)
             {
-                return NotFound();
+                return NotFound(customerId);
             }
 
-            var bikes = _bikeCustomersRepository.GetBikesForCustomer(customerId);
+            if (!await _bikeCustomersRepository.CustomerExist(customerId))
+            {
+                return NotFound(customerId);
+            }
+
+            var customer = await _bikeCustomersRepository.GetCustomer(customerId);
+
+            return Ok(_mapper.Map<CustomersDto>(customer));
+        }
+
+        [HttpGet]
+        [Route("{customerId}/bikes")]
+        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikesForCustomer(Guid customerId)
+        {
+            if (!await _bikeCustomersRepository.CustomerExist(customerId))
+            {
+                return NotFound(customerId);
+            }
+
+            var bikes = await _bikeCustomersRepository.GetBikesForCustomer(customerId);
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(bikes));
         }
     }

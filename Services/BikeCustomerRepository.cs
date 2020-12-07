@@ -1,4 +1,5 @@
-﻿using ServiceAPI.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using ServiceAPI.DbContexts;
 using ServiceAPI.Entities;
 using System;
 using System.Collections.Generic;
@@ -41,24 +42,24 @@ namespace ServiceAPI.Services
             _context.Customers.Add(customer);
         }
 
-        public bool BikeExist(Guid bikeId)
+        public async Task<bool> BikeExist(Guid bikeId)
         {
             if (bikeId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(bikeId));
             }
 
-            return _context.Bikes.Any(x => x.Id == bikeId);
+            return await _context.Bikes.AnyAsync(x => x.Id == bikeId);
         }
 
-        public bool CustomerExist(Guid customerId)
+        public async Task<bool> CustomerExist(Guid customerId)
         {
             if (customerId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(customerId));
             }
 
-            var exist = _context.Customers.Any(x => x.Id == customerId);
+            var exist = await _context.Customers.AnyAsync(x => x.Id == customerId);
             return exist;
         }
 
@@ -82,53 +83,80 @@ namespace ServiceAPI.Services
             _context.Customers.Remove(customer);
         }
 
-        public IEnumerable<Bike> GetBikes()
+        public async Task<IEnumerable<Bike>> GetBikes()
         {
-            return _context.Bikes.ToList();
+            return await _context.Bikes.ToListAsync();
         }
 
-        public Bike GetBike(Guid bikeId)
+        public async Task<IEnumerable<Bike>> GetBikes(string brand)
+        {
+            brand = brand.Trim();
+
+            if(string.IsNullOrEmpty(brand))
+            {
+                return await GetBikes();
+            }
+
+            var searchBrand = _context.Bikes as IQueryable<Bike>;
+
+            return await searchBrand.Where(x => x.Brand.Contains(brand)).ToListAsync();
+        }
+
+        public async Task<Bike> GetBike(Guid bikeId)
         {
             if (bikeId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(bikeId));
             }
 
-            return _context.Bikes.FirstOrDefault(x => x.Id == bikeId);
+            return await _context.Bikes.FirstOrDefaultAsync(x => x.Id == bikeId);
         }
 
-        public IEnumerable<Bike> GetBikesForCustomer(Guid customerId)
+        public async Task<IEnumerable<Bike>> GetBikesForCustomer(Guid customerId)
         {
             if (customerId == null)
             {
                 throw new ArgumentNullException(nameof(customerId));
             }
 
-            var bikes = _context.Bikes.Where(x => x.CustomerID == customerId)
-                                              .OrderBy(x => x.Brand).ToList();
+            var bikes = await _context.Bikes.Where(x => x.CustomerID == customerId)
+                                              .OrderBy(x => x.Brand).ToListAsync();
             return bikes;
         }
 
-        public IEnumerable<Bike> GetBikes(IEnumerable<Guid> bikeIds)
+        public async Task<Customer> GetCustomer(Guid customerId)
         {
-            if (bikeIds == null)
-            {
-                throw new ArgumentNullException(nameof(bikeIds));
-            }
-
-            return _context.Bikes.Where(x => bikeIds.Contains(x.Id))
-                                 .OrderBy(x => x.Brand).ToList();
+            return await _context.Customers.FirstOrDefaultAsync(x => x.Id == customerId);
         }
 
-        public IEnumerable<Customer> GetCustomer(Guid bikeId)
+        public async Task<IEnumerable<Customer>> GetCustomer(string name, string surname)
         {
-            if (bikeId == Guid.Empty)
+
+            if(string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(surname))
             {
-                throw new ArgumentNullException(nameof(bikeId));
+                return await GetCustomers();
             }
 
-            return _context.Customers.Where(x => x.BikeId == bikeId)
-                                     .OrderBy(x => x.Name).ToList();
+            var customerCollection = _context.Customers as IQueryable<Customer>;
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                name = name.Trim();
+                customerCollection = customerCollection.Where(x => x.Name == name);
+            }
+
+            if (!string.IsNullOrWhiteSpace(surname))
+            {
+                surname = surname.Trim();
+                customerCollection = customerCollection.Where(x => x.Surname == surname);
+            }
+
+            return await customerCollection.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Customer>> GetCustomers()
+        {
+            return await _context.Customers.ToListAsync();
         }
 
         public Customer GetCustomer(Guid bikeId, Guid customerId)

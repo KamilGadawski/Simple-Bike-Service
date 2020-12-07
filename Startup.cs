@@ -1,7 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,17 +30,17 @@ namespace ServiceAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(setupAction =>
+            services.AddControllers(options =>
             {
-                setupAction.ReturnHttpNotAcceptable = true;
-            }).AddXmlDataContractSerializerFormatters();
+                options.RespectBrowserAcceptHeader = true;
+                options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+            });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IBikeCustomersRepository, BikeCustomerRepository>();
-            services.AddDbContext<BikeCustomerContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("ConnStringDefaultDEV"));
-            });
+            services.AddTransient<BikeCustomerContext>();
+            services.AddDbContext<BikeCustomerContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("ConnStringDefaultDEV")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +49,16 @@ namespace ServiceAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            } 
+            else
+            {
+                app.UseExceptionHandler(appBuilder =>
+                {
+                    appBuilder.Run(async c => {
+                        c.Response.StatusCode = 500;
+                        await c.Response.WriteAsync("Something wrong. Try again");
+                    });
+                });
             }
 
             app.UseRouting();
