@@ -37,7 +37,7 @@ namespace ServiceAPI.Controllers
             return Ok(_mapper.Map<IEnumerable<CustomersDto>>(customers));
         }
 
-        [HttpGet("{customerId}")]
+        [HttpGet("{customerId}", Name ="GetCustomer")]
         public async Task<IActionResult> GetCustomer(Guid customerId)
         {
             if (customerId == null)
@@ -66,6 +66,22 @@ namespace ServiceAPI.Controllers
 
             var bikes = await _bikeCustomersRepository.GetBikesForCustomer(customerId);
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(bikes));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CustomersDto>> CreateCustomer([FromBody] CustomerCreatingDto customer)
+        {
+            DateTime time = DateTime.Now;
+
+            var customerEntity = _mapper.Map<Entities.Customer>(customer);
+            customerEntity.DateTimeAdd = time;
+
+            await _bikeCustomersRepository.AddCustomer(customerEntity);
+            await _bikeCustomersRepository.Save();
+
+            var customerReturn = _mapper.Map<CustomersDto>(customerEntity);
+
+            return CreatedAtRoute("GetCustomer", new { customerId = customerReturn.Id }, customerReturn);
         }
     }
 }

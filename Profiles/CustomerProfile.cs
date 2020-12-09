@@ -11,6 +11,7 @@ namespace ServiceAPI.Profiles
         public CustomerProfile()
         {
             CreateMap<Entities.Customer, Models.CustomersDto>();
+            CreateMap<Models.CustomerCreatingDto, Entities.Customer>();
         }
     }
 }

@@ -56,7 +56,6 @@ namespace ServiceAPI.DbContexts
                 Surname = "Wallie",
                 Email = "john@gmail.com",
                 TelephoneNumber = "123456789",
-                BikeId = Guid.Parse("99289c1a-3342-40fc-905b-65c2dd59babe"),
                 DateTimeAdd = new DateTime(2020,7,13)
             },
             new Customer
@@ -66,7 +65,6 @@ namespace ServiceAPI.DbContexts
                 Surname = "Tree",
                 Email = "mark@gmail.com",
                 TelephoneNumber = "234567891",
-                BikeId = Guid.Parse("e6e46660-bb84-451d-aafe-a6c7346a48ae"),
                 DateTimeAdd = new DateTime(2020, 4, 11)
             },
             new Customer
@@ -76,7 +74,6 @@ namespace ServiceAPI.DbContexts
                 Surname = "Kowalsky",
                 Email = "peter@gmail.com",
                 TelephoneNumber = "434567891",
-                BikeId = Guid.Parse("99289c1a-3342-40fc-905b-65c2dd59babe"),
                 DateTimeAdd = new DateTime(2020, 2, 25)
             });
 

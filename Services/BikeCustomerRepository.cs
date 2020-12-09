@@ -26,20 +26,14 @@ namespace ServiceAPI.Services
           await _context.Bikes.AddAsync(bike);
         }
 
-        public void AddCustomer(Guid bikeId, Customer customer)
+        public async Task AddCustomer(Customer customer)
         {
-            if (bikeId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(bikeId));
-            }
-
             if (customer == null)
             {
                 throw new ArgumentNullException(nameof(customer));
             }
-
-            customer.BikeId = bikeId;
-            _context.Customers.Add(customer);
+            
+            await _context.Customers.AddAsync(customer);
         }
 
         public async Task<bool> BikeExist(Guid bikeId)
@@ -159,20 +153,20 @@ namespace ServiceAPI.Services
             return await _context.Customers.ToListAsync();
         }
 
-        public Customer GetCustomer(Guid bikeId, Guid customerId)
-        {
-            if (bikeId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(bikeId));
-            }
+        //public Customer GetCustomer(Guid bikeId, Guid customerId)
+        //{
+        //    if (bikeId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(bikeId));
+        //    }
 
-            if (customerId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(customerId));
-            }
+        //    if (customerId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(customerId));
+        //    }
 
-            return _context.Customers.Where(x => x.BikeId == bikeId && x.Id == customerId).FirstOrDefault();
-        }
+        //    return _context.Customers.Where(x => x.BikeId == bikeId && x.Id == customerId).FirstOrDefault();
+        //}
 
         public async Task<bool> Save()
         {

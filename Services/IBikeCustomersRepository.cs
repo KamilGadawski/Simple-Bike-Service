@@ -11,8 +11,8 @@ namespace ServiceAPI.Services
         Task<Customer> GetCustomer(Guid customerId);
         Task<IEnumerable<Customer>> GetCustomer(string name, string surname);
         Task<IEnumerable<Customer>> GetCustomers();
-        Customer GetCustomer(Guid bikeId, Guid customerId);
-        void AddCustomer(Guid bikeId, Customer customer);
+        //Customer GetCustomer(Guid bikeId, Guid customerId);
+        Task AddCustomer(Customer customer);
         void UpdateCustomer(Customer customer);
         void DeleteCustomer(Customer customer);
         Task<IEnumerable<Bike>> GetBikes();

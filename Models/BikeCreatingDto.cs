@@ -12,11 +12,11 @@ namespace ServiceAPI.Models
         public int Size { get; set; }
         public string Description { get; set; }
         public Guid CustomerID { get; set; }
-        public DateTime AddedBike { get; set; }
+        public DateTime BikeAdd { get; set; }
         
         public BikeCreatingDto()
         {
-            this.AddedBike = DateTime.UtcNow;
+            this.BikeAdd = DateTime.UtcNow;
         }
     }
 }

@@ -27,10 +27,6 @@ namespace ServiceAPI.Entities
         [Required]
         public string TelephoneNumber { get; set; }
 
-        [ForeignKey("BikeId")]
-        public Bike Bike { get; set; }
-        public Guid BikeId { get; set; }
-
         [Required]
         [DataType(DataType.DateTime)]
         public DateTime DateTimeAdd { get; set; }

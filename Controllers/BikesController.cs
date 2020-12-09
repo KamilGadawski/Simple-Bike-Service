@@ -58,7 +58,10 @@ namespace ServiceAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<BikeDto>> CreateBike([FromBody] BikeCreatingDto bike)
         {
+            DateTime time = DateTime.Now;
+
             var bikeEntity = _mapper.Map<Entities.Bike>(bike);
+            bikeEntity.AddedBike = time;
 
             await _bikeCustomersRepository.AddBike(bikeEntity);
             await _bikeCustomersRepository.Save();
