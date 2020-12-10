@@ -16,7 +16,6 @@ namespace ServiceAPI.Entities
         public string Brand { get; set; }
 
         [Required]
-        [MaxLength(2)]
         public int Size { get; set; }
 
         [Required]

@@ -153,21 +153,6 @@ namespace ServiceAPI.Services
             return await _context.Customers.ToListAsync();
         }
 
-        //public Customer GetCustomer(Guid bikeId, Guid customerId)
-        //{
-        //    if (bikeId == Guid.Empty)
-        //    {
-        //        throw new ArgumentNullException(nameof(bikeId));
-        //    }
-
-        //    if (customerId == Guid.Empty)
-        //    {
-        //        throw new ArgumentNullException(nameof(customerId));
-        //    }
-
-        //    return _context.Customers.Where(x => x.BikeId == bikeId && x.Id == customerId).FirstOrDefault();
-        //}
-
         public async Task<bool> Save()
         {
             return (await _context.SaveChangesAsync() >= 0);

@@ -71,7 +71,7 @@ namespace ServiceAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<CustomersDto>> CreateCustomer([FromBody] CustomerCreatingDto customer)
         {
-            DateTime time = DateTime.Now;
+           DateTime time = DateTime.Now;
 
             var customerEntity = _mapper.Map<Entities.Customer>(customer);
             customerEntity.DateTimeAdd = time;

@@ -5,9 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ServiceAPI.Services;
 using ServiceAPI.Models;
-using ServiceAPI.Helpers;
 using AutoMapper;
-using System.Text.Json;
 
 namespace ServiceAPI.Controllers
 {
@@ -33,13 +31,13 @@ namespace ServiceAPI.Controllers
 
         [HttpGet("search")]
         [HttpHead]
-        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikes([FromQuery]string brand)
+        public async Task<ActionResult<IEnumerable<BikeDto>>> GetBikes([FromQuery] string brand)
         {
             var brandResult = await _bikeCustomersRepository.GetBikes(brand);
             return Ok(_mapper.Map<IEnumerable<BikeDto>>(brandResult));
         }
 
-        [HttpGet("{bikeId}", Name ="GetBike")]
+        [HttpGet("{bikeId}", Name = "GetBike")]
         public async Task<IActionResult> GetBike(Guid bikeId)
         {
             var bike = await _bikeCustomersRepository.GetBike(bikeId);
@@ -70,6 +68,12 @@ namespace ServiceAPI.Controllers
 
             return CreatedAtRoute("GetBike", new { bikeId = bikeReturn.Id }, bikeReturn);
         }
+
+        [HttpOptions]
+        public IActionResult GetBikesOptions()
+        {
+            Response.Headers.Add("Allow", "GET,POST,DELETE,HEAD,OPTIONS");
+            return Ok();
+        }
     }
 }
-
